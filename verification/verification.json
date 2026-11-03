@@ -1,0 +1,12 @@
+{
+  "image_size": 96436,
+  "sha256": "8beab84985aba525b11101af9614f34c663e703bf2153416b53c981e3620e34b",
+  "reference_matches": true,
+  "restore_exact": true,
+  "corrupt_restore_rejected": true,
+  "source_sha256": {
+    "sensor_mod.c": "c09c4095524fe6e78a3a2fba08c3187e7d0086a8336d9526396446892c4d4623",
+    "runtime64.c": "430aa7b47644414dba2e6f7caf43014baa2d911c029b0a2b99f563f73c214efb",
+    "patch.ld": "6f74539e5d6c6090ff0cfe439aa02ff715c8180bd3face25d9f8bdd3b24c02e8"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "translated_instructions": 1508,
+  "passed": [
+    "BMP Bosch reference / AHT 50% / no U1",
+    "BMP alternate address 0x77",
+    "AHT 0%",
+    "AHT maximum",
+    "CRC/NACK/calibration/raw/busy/timeout rejection",
+    "asynchronous AHT initialization and timer wrap",
+    "scan response idempotence / no room / malformed / API busy",
+    "compiled 64-bit runtime: 100 randomized multiply/divide pairs",
+    "compiled GPIO: SCL held low / absent sensor NACK / released outputs"
+  ],
+  "limits": "Instruction-equivalence simulation, not TC32 silicon or MiHome radio validation."
+}

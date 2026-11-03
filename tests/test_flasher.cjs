@@ -1,0 +1,24 @@
+const fs = require('fs');
+const vm = require('vm');
+const path = require('path');
+const assert = require('assert');
+const root = path.resolve(__dirname, '..');
+const ctx = vm.createContext({bigOtaEnabled:false,fwmaxsize:0x20000,fzigbeeota:{},addClog:()=>{}});
+vm.runInContext(fs.readFileSync(path.join(root,'third_party/telink_flasher_validation.js'),'utf8'),ctx);
+const buf = fs.readFileSync(process.argv[2]);
+const ab = b => b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength);
+const check = b => ctx.testOTAFirmware(ab(b));
+assert.equal(check(buf),'ok');
+assert.equal(check(fs.readFileSync(path.join(root,'inputs/original_0130.bin'))),'ok');
+// Reproduce R1's four-byte alignment bug without distributing an OEM image.
+const previous = Buffer.concat([buf.subarray(0,buf.length-8),Buffer.alloc(4)]);
+previous.writeUInt32LE(previous.length,0x18);
+previous.writeUInt32LE(ctx.crc32(new Uint8Array(previous.subarray(0,previous.length-4))),previous.length-4);
+assert.equal(check(previous),'Invalid size pointer in Telink OTA binary firmware!');
+const corrupt=Buffer.from(buf);corrupt[0x16b00]^=1;
+assert.equal(check(corrupt),'Incorrect CRC in Telink OTA binary firmware!');
+const badlen=Buffer.from(buf);badlen.writeUInt32LE(buf.length-4,0x18);
+assert.equal(check(badlen),'Invalid size pointer in Telink OTA binary firmware!');
+const report={source:'Extracted TelinkMiFlasher testOTAFirmware and crc32 JavaScript',result:'ok',size:buf.length,header_length:buf.readUInt32LE(0x18),modulo16:buf.length%16,tests:['original accepted','R1 alignment error reproduced','R2 accepted','corrupt CRC rejected','invalid alignment rejected'],limit:'Offline file parser only; no hardware or MiHome validation'};
+fs.writeFileSync(path.join(root,'build/flasher_validation.json'),JSON.stringify(report,null,2));
+console.log(JSON.stringify(report,null,2));

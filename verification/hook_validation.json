@@ -1,0 +1,5 @@
+{
+  "all_five_hooks_valid": true,
+  "tail_jump_execution": "passed",
+  "limit": "Instruction-equivalence model, not hardware execution"
+}

@@ -1,0 +1,15 @@
+{
+  "source": "Extracted TelinkMiFlasher testOTAFirmware and crc32 JavaScript",
+  "result": "ok",
+  "size": 96436,
+  "header_length": 96436,
+  "modulo16": 4,
+  "tests": [
+    "original accepted",
+    "R1 alignment error reproduced",
+    "R2 accepted",
+    "corrupt CRC rejected",
+    "invalid alignment rejected"
+  ],
+  "limit": "Offline file parser only; no hardware or MiHome validation"
+}
